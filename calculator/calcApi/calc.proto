@@ -1,0 +1,49 @@
+syntax="proto3";
+
+package calcApi;
+option go_package="./calculator/calcApi";
+
+//to take input from the user
+message InputNumbers{
+  int64 first_num=1;
+  int64 second_num=2;
+}
+// wrapping the input into request
+message SumRequest{
+  InputNumbers input=1;
+}
+//defining response from API
+message SumResponse{
+  int64 response=1;
+}
+
+message MultiplicationTableRequest{
+  int64 number=1;
+}
+message MultiplicationTableResponse{
+  string response=1;
+}
+
+message MaximumNumberRequest{
+  int64 number=1;
+}
+message MaximumNumberResponse{
+  string response=1;
+}
+
+message AverageRequest{
+  int64 number=1;
+}
+message AverageResponse{
+  string response=1;
+}
+service CalcService{
+  //Unary Call for sum
+  rpc Sum(SumRequest) returns (SumResponse) {};
+  //Server Streaming for Multiplication Table
+  rpc MultiplicationTable(MultiplicationTableRequest) returns (stream MultiplicationTableResponse) {};
+  //Client Streaming for maximum number out of given numbers
+  rpc Maximum(stream MaximumNumberRequest) returns (MaximumNumberResponse){};
+  //Bidirectional Streaming for average
+  rpc Average(stream AverageRequest) returns (stream AverageResponse) {};
+}
